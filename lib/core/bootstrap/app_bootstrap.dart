@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/ui-kit/app_theme.dart';
+import '../../shared/theme/app_theme.dart';
 import '../config/app_dependencies.dart';
 import '../routing/app_router.dart';
 
