@@ -1,16 +1,72 @@
-# ecom_front
+# eComeFront
 
-A new Flutter project.
+Flutter-приложение с feature-first архитектурой, где каждый endpoint добавляется в новую/существующую feature без изменений в `core`.
 
-## Getting Started
+## Архитектура
 
-This project is a starting point for a Flutter application.
+```text
+lib/
+  core/
+    auth/
+    bootstrap/
+    config/
+    error/
+    network/
+    routing/
+    utils/
+  shared/
+    constants/
+    extensions/
+    ui-kit/
+    widgets/
+  features/
+    auth|catalog|pricing|cart|orders|admin|reports/
+      data/
+      domain/
+      presentation/
+```
 
-A few resources to get you started if this is your first Flutter project:
+## Bootstrap (`lib/main.dart`)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+`main.dart` содержит только:
+1. Инициализацию env-конфига.
+2. Подготовку DI/провайдеров.
+3. Подключение роутера.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Шаблон генерации новой feature
+
+Ниже базовый шаблон для добавления новой feature `<feature>` с новым endpoint:
+
+```text
+lib/features/<feature>/
+  data/
+    <feature>_api.dart
+    <feature>_repository_impl.dart
+    <feature>_dto.dart
+  domain/
+    <feature>_entity.dart
+    <feature>_repository.dart
+    get_<feature>_items_use_case.dart
+  presentation/
+    <feature>_screen.dart
+    <feature>_controller.dart
+    <feature>_widgets.dart
+```
+
+### Контракт по слоям
+
+- `data/<feature>_api.dart` — вызовы endpoint и парсинг DTO.
+- `data/<feature>_repository_impl.dart` — маппинг DTO -> entity и реализация domain-контрактов.
+- `domain/<feature>_repository.dart` — интерфейс репозитория.
+- `domain/get_<feature>_items_use_case.dart` — бизнес-сценарий.
+- `presentation/*` — экран, state/controller/provider, UI-виджеты.
+
+## Пример модуля: `reports`
+
+- API: `lib/features/reports/data/reports_api.dart`
+- Repository impl: `lib/features/reports/data/reports_repository_impl.dart`
+- Domain contract: `lib/features/reports/domain/reports_repository.dart`
+- Use case: `lib/features/reports/domain/get_reports_items_use_case.dart`
+- Presentation: `lib/features/reports/presentation/reports_screen.dart`
+
+> Новый endpoint добавляется в соответствующую feature через `data -> domain -> presentation`, не требуя изменений в `lib/core/*`.
