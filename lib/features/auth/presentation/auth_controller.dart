@@ -1,11 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../domain/auth_entity.dart';
 import '../domain/get_auth_items_use_case.dart';
 
-class AuthController {
-  AuthController(this._getItems);
+class AuthController extends StateNotifier<AsyncValue<List<AuthEntity>>> {
+  AuthController(this._getItems) : super(const AsyncLoading()) {
+    load();
+  }
 
   final GetAuthItemsUseCase _getItems;
 
   Future<void> load() async {
-    await _getItems();
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(_getItems.call);
   }
 }

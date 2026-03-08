@@ -49,7 +49,7 @@ lib/features/<feature>/
     get_<feature>_items_use_case.dart
   presentation/
     <feature>_screen.dart
-    <feature>_controller.dart
+    <feature>_controller.dart  # StateNotifier/AsyncNotifier
     <feature>_widgets.dart
 ```
 
@@ -70,3 +70,12 @@ lib/features/<feature>/
 - Presentation: `lib/features/reports/presentation/reports_screen.dart`
 
 > Новый endpoint добавляется в соответствующую feature через `data -> domain -> presentation`, не требуя изменений в `lib/core/*`.
+
+## Riverpod DI и нейминг провайдеров
+
+- Все провайдеры размещаются в `lib/core/di/providers.dart`.
+- Именование провайдеров фиксируется суффиксом `Provider`:
+  - инфраструктура: `<service>Provider` (`dioProvider`, `apiClientProvider`, `tokenStorageProvider`, `authSessionProvider`);
+  - data/domain: `<feature>ApiProvider`, `<feature>RepositoryProvider`, `get<Feature>ItemsUseCaseProvider`;
+  - экранные состояния: `<feature>StateProvider` (через `StateNotifierProvider`/`AsyncNotifierProvider`).
+- Для одного типа зависимости используем один источник истины (single provider per dependency type).
