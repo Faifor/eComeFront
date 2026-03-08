@@ -1,11 +1,17 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../domain/cart_entity.dart';
 import '../domain/get_cart_items_use_case.dart';
 
-class CartController {
-  CartController(this._getItems);
+class CartController extends StateNotifier<AsyncValue<List<CartEntity>>> {
+  CartController(this._getItems) : super(const AsyncLoading()) {
+    load();
+  }
 
   final GetCartItemsUseCase _getItems;
 
   Future<void> load() async {
-    await _getItems();
+    state = const AsyncLoading();
+    state = await AsyncValue.guard(_getItems.call);
   }
 }
