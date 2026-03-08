@@ -1,28 +1,52 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'core/bootstrap/app_bootstrap.dart';
 import 'core/config/app_dependencies.dart';
 import 'core/config/env_config.dart';
 import 'core/di/providers.dart';
 import 'core/routing/app_router.dart';
+import 'shared/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final envConfig = await EnvConfig.load();
   final dependencies = AppDependencies.fromEnv(envConfig);
-  final appRouter = AppRouter();
+
+  debugPrint('Running build flavor: ${envConfig.flavor.name}');
 
   runApp(
     ProviderScope(
       overrides: [
         envConfigProvider.overrideWithValue(envConfig),
       ],
-      child: AppBootstrap(
+      child: App(
         dependencies: dependencies,
-        router: appRouter,
+        router: AppRouter(),
       ),
     ),
   );
+}
+
+class App extends StatelessWidget {
+  const App({
+    super.key,
+    required this.dependencies,
+    required this.router,
+  });
+
+  final AppDependencies dependencies;
+  final AppRouter router;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppDependenciesScope(
+      dependencies: dependencies,
+      child: MaterialApp.router(
+        title: 'eComeFront',
+        theme: AppTheme.light(),
+        routerConfig: router.config,
+      ),
+    );
+  }
 }
