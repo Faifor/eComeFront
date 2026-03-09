@@ -2,6 +2,11 @@
 
 Flutter-приложение с feature-first архитектурой, где каждый endpoint добавляется в новую/существующую feature без изменений в `core`.
 
+## Документация по интеграции
+
+- [API integration matrix](docs/api-integration.md)
+- [Sequence diagrams (text)](docs/sequences.md)
+
 ## Архитектура
 
 ```text
