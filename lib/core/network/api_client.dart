@@ -36,10 +36,11 @@ class ApiClient {
 
   Options _mergeOptions(Options? options, {required bool isIdempotent}) {
     final source = options ?? Options();
+    final extra = source.extra ?? <String, dynamic>{};
     return source.copyWith(
       extra: <String, dynamic>{
-        ...source.extra,
-        idempotentExtraKey: source.extra[idempotentExtraKey] ?? isIdempotent,
+        ...extra,
+        idempotentExtraKey: extra[idempotentExtraKey] ?? isIdempotent,
       },
     );
   }

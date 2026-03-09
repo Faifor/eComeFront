@@ -22,7 +22,12 @@ class MockAuthRepository implements AuthRepository {
       AuthSessionEntity(
         accessToken: payload['accessToken'].toString(),
         refreshToken: payload['refreshToken'].toString(),
-        expiresIn: 3600,
+        user: AuthUser(
+          id: 'test-user-id',
+          email: payload['email']?.toString() ?? email,
+          name: payload['name']?.toString() ?? 'Test User',
+          phone: payload['phone']?.toString(),
+        ),
       ),
     );
   }
@@ -38,7 +43,7 @@ class MockAuthRepository implements AuthRepository {
       Future.value(Failure('Not used in test'));
 
   @override
-  Future<Result<AuthUser>> register({required String email, required String password, required String name}) =>
+  Future<Result<AuthSessionEntity>> register({required String email, required String password, required String name}) =>
       Future.value(Failure('Not used in test'));
 
   @override

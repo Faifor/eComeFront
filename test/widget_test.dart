@@ -9,10 +9,12 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   testWidgets('App starts with login route', (WidgetTester tester) async {
     const envConfig = EnvConfig(
-      apiBaseUrl: 'https://api.example.com',
+      apiBaseUrl: 'http://localhost:8000',
       environment: 'dev',
       flavor: BuildFlavor.dev,
     );
+
+    final dependencies = AppDependencies.fromEnv(envConfig);
 
     await tester.pumpWidget(
       ProviderScope(
@@ -20,8 +22,8 @@ void main() {
           envConfigProvider.overrideWithValue(envConfig),
         ],
         child: App(
-          dependencies: AppDependencies.fromEnv(envConfig),
-          router: AppRouter(),
+          dependencies: dependencies,
+          router: AppRouter(authState: dependencies.authState),
         ),
       ),
     );

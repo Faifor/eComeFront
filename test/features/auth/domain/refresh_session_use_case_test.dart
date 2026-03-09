@@ -10,7 +10,13 @@ class _FakeAuthRepository implements AuthRepository {
   @override
   Future<Result<AuthSessionEntity>> refresh({required String refreshToken}) async {
     lastRefreshToken = refreshToken;
-    return const Success(AuthSessionEntity(accessToken: 'newA', refreshToken: 'newR', expiresIn: 3600));
+    return const Success(
+      AuthSessionEntity(
+        accessToken: 'newA',
+        refreshToken: 'newR',
+        user: AuthUser(id: '1', email: 'user@example.com', name: 'User'),
+      ),
+    );
   }
 
   @override
