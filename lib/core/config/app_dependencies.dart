@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../auth/auth_state.dart';
 import '../auth/session_manager.dart';
 import '../network/app_http_client.dart';
 import 'env_config.dart';
@@ -9,11 +10,13 @@ class AppDependencies {
     required this.envConfig,
     required this.httpClient,
     required this.sessionManager,
+    required this.authState,
   });
 
   final EnvConfig envConfig;
   final AppHttpClient httpClient;
   final SessionManager sessionManager;
+  final AuthState authState;
 
   factory AppDependencies.fromEnv(EnvConfig envConfig) {
     final sessionManager = SessionManager();
@@ -22,6 +25,7 @@ class AppDependencies {
       envConfig: envConfig,
       httpClient: AppHttpClient(baseUrl: envConfig.apiBaseUrl),
       sessionManager: sessionManager,
+      authState: AuthState(),
     );
   }
 }

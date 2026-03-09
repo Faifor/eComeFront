@@ -2,6 +2,7 @@ abstract final class RouteNames {
   // User
   static const login = 'login';
   static const register = 'register';
+  static const forbidden = 'forbidden';
   static const profile = 'profile';
   static const catalog = 'catalog';
   static const product = 'product';
@@ -27,6 +28,7 @@ abstract final class RoutePaths {
   // User
   static const login = '/login';
   static const register = '/register';
+  static const forbidden = '/403';
   static const profile = '/profile';
   static const catalog = '/catalog';
   static const product = '/product';
