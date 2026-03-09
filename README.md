@@ -84,3 +84,12 @@ lib/features/<feature>/
   - data/domain: `<feature>ApiProvider`, `<feature>RepositoryProvider`, `get<Feature>ItemsUseCaseProvider`;
   - экранные состояния: `<feature>StateProvider` (через `StateNotifierProvider`/`AsyncNotifierProvider`).
 - Для одного типа зависимости используем один источник истины (single provider per dependency type).
+
+
+## Testing
+
+- Локально: `flutter test --reporter expanded`
+- CI: workflow `.github/workflows/ci.yml` запускает `flutter pub get` и `flutter test --reporter expanded`.
+- Тестовые данные и doubles:
+  - JSON fixtures: `test/fixtures/*.json`
+  - Mock repositories/API doubles: `test/doubles/mock_repositories.dart`
