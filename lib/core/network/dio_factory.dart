@@ -13,6 +13,7 @@ class DioFactory {
   Dio create({
     required String baseUrl,
     required AuthSession authSession,
+    void Function()? onSessionExpired,
   }) {
     final dio = Dio(
       BaseOptions(
@@ -25,7 +26,11 @@ class DioFactory {
     dio.interceptors.addAll([
       RequestIdInterceptor(),
       AuthInterceptor(authSession),
-      RefreshTokenInterceptor(dio: dio, authSession: authSession),
+      RefreshTokenInterceptor(
+        dio: dio,
+        authSession: authSession,
+        onSessionExpired: onSessionExpired,
+      ),
       ErrorMappingInterceptor(const ErrorMapper()),
     ]);
 

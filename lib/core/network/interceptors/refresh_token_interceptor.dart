@@ -9,6 +9,7 @@ class RefreshTokenInterceptor extends Interceptor {
   RefreshTokenInterceptor({
     required Dio dio,
     required AuthSession authSession,
+    this.onSessionExpired,
   }) : _dio = dio,
        _authSession = authSession;
 
@@ -17,6 +18,7 @@ class RefreshTokenInterceptor extends Interceptor {
 
   final Dio _dio;
   final AuthSession _authSession;
+  final void Function()? onSessionExpired;
 
   Completer<bool>? _refreshCompleter;
 
@@ -83,7 +85,7 @@ class RefreshTokenInterceptor extends Interceptor {
     try {
       final refreshToken = _authSession.refreshToken;
       if (refreshToken == null || refreshToken.isEmpty) {
-        _authSession.clear();
+        _expireSession();
         completer.complete(false);
         return false;
       }
@@ -107,7 +109,7 @@ class RefreshTokenInterceptor extends Interceptor {
       final newRefreshToken = payload['refreshToken']?.toString() ?? refreshToken;
 
       if (newAccessToken == null || newAccessToken.isEmpty) {
-        _authSession.clear();
+        _expireSession();
         completer.complete(false);
         return false;
       }
@@ -116,12 +118,17 @@ class RefreshTokenInterceptor extends Interceptor {
       completer.complete(true);
       return true;
     } catch (_) {
-      _authSession.clear();
+      _expireSession();
       completer.complete(false);
       return false;
     } finally {
       _refreshCompleter = null;
     }
+  }
+
+  void _expireSession() {
+    _authSession.clear();
+    onSessionExpired?.call();
   }
 
   Future<Response<dynamic>> _replayRequest(RequestOptions requestOptions) {

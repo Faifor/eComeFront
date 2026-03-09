@@ -19,10 +19,11 @@ Future<void> main() async {
     ProviderScope(
       overrides: [
         envConfigProvider.overrideWithValue(envConfig),
+        authAccessStateProvider.overrideWithValue(dependencies.authState),
       ],
       child: App(
         dependencies: dependencies,
-        router: AppRouter(),
+        router: AppRouter(authState: dependencies.authState),
       ),
     ),
   );

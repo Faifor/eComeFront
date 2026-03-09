@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../auth/auth_state.dart';
 import 'app_shell.dart';
+import 'route_guard.dart';
 import 'routes.dart';
 
 class AppRouter {
+  AppRouter({required AuthState authState}) : _authState = authState;
+
+  final AuthState _authState;
+  final RouteGuard _guard = RouteGuard();
+
   late final RouterConfig<Object> config = GoRouter(
     initialLocation: RoutePaths.login,
+    refreshListenable: _authState,
+    redirect: (context, state) => _redirect(state),
     routes: [
       GoRoute(
         path: RoutePaths.login,
@@ -17,6 +26,11 @@ class AppRouter {
         path: RoutePaths.register,
         name: RouteNames.register,
         builder: (context, state) => const _RouteScreen(title: 'Register'),
+      ),
+      GoRoute(
+        path: RoutePaths.forbidden,
+        name: RouteNames.forbidden,
+        builder: (context, state) => const _RouteScreen(title: '403 Forbidden'),
       ),
       ShellRoute(
         builder: (context, state, child) => AppShell(
@@ -57,6 +71,10 @@ class AppRouter {
       ),
     ],
   );
+
+  String? _redirect(GoRouterState state) {
+    return _guard.redirect(path: state.uri.path, authState: _authState);
+  }
 }
 
 GoRoute _buildRoute(String path, String name, String title) {

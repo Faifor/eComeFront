@@ -37,6 +37,7 @@ import '../../features/orders/domain/orders_entity.dart';
 import '../../features/pricing/domain/pricing_entity.dart';
 import '../../features/reports/domain/reports_entity.dart';
 import '../auth/auth_session.dart';
+import '../auth/auth_state.dart';
 import '../auth/token_storage.dart';
 import '../config/env_config.dart';
 import '../network/api_client.dart';
@@ -48,6 +49,11 @@ final envConfigProvider = Provider<EnvConfig>((ref) {
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
+
+final authAccessStateProvider = Provider<AuthState>((ref) {
+  throw UnimplementedError('Override authStateProvider in ProviderScope');
+});
+
 final authSessionProvider = Provider<AuthSession>((ref) {
   return AuthSession(ref.watch(tokenStorageProvider));
 });
@@ -57,9 +63,11 @@ final dioFactoryProvider = Provider<DioFactory>((ref) => const DioFactory());
 final dioProvider = Provider<Dio>((ref) {
   final envConfig = ref.watch(envConfigProvider);
   final authSession = ref.watch(authSessionProvider);
+  final authState = ref.watch(authAccessStateProvider);
   return ref.watch(dioFactoryProvider).create(
     baseUrl: envConfig.apiBaseUrl,
     authSession: authSession,
+    onSessionExpired: authState.expireSession,
   );
 });
 
