@@ -5,12 +5,17 @@ class AuthSession {
 
   final TokenStorage _tokenStorage;
 
-  String? get token => _tokenStorage.read();
+  String? get accessToken => _tokenStorage.readAccessToken();
+  String? get refreshToken => _tokenStorage.readRefreshToken();
+  String? get token => accessToken;
 
-  bool get isAuthenticated => token != null;
+  bool get isAuthenticated => accessToken != null;
 
-  void open(String token) {
-    _tokenStorage.write(token);
+  void open({
+    required String accessToken,
+    String? refreshToken,
+  }) {
+    _tokenStorage.write(accessToken: accessToken, refreshToken: refreshToken);
   }
 
   void clear() {

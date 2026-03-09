@@ -1,13 +1,22 @@
 class TokenStorage {
-  String? _token;
+  String? _accessToken;
+  String? _refreshToken;
 
-  String? read() => _token;
+  String? readAccessToken() => _accessToken;
+  String? readRefreshToken() => _refreshToken;
 
-  void write(String token) {
-    _token = token;
+  void write({
+    required String accessToken,
+    String? refreshToken,
+  }) {
+    _accessToken = accessToken;
+    if (refreshToken != null) {
+      _refreshToken = refreshToken;
+    }
   }
 
   void clear() {
-    _token = null;
+    _accessToken = null;
+    _refreshToken = null;
   }
 }

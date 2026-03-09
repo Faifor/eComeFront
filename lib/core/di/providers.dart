@@ -40,24 +40,31 @@ import '../auth/auth_session.dart';
 import '../auth/token_storage.dart';
 import '../config/env_config.dart';
 import '../network/api_client.dart';
+import '../network/dio_factory.dart';
 
 final envConfigProvider = Provider<EnvConfig>((ref) {
   throw UnimplementedError('Override envConfigProvider in ProviderScope');
-});
-
-final dioProvider = Provider<Dio>((ref) {
-  final envConfig = ref.watch(envConfigProvider);
-  return Dio(BaseOptions(baseUrl: envConfig.apiBaseUrl));
-});
-
-final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient(ref.watch(dioProvider));
 });
 
 final tokenStorageProvider = Provider<TokenStorage>((ref) => TokenStorage());
 
 final authSessionProvider = Provider<AuthSession>((ref) {
   return AuthSession(ref.watch(tokenStorageProvider));
+});
+
+final dioFactoryProvider = Provider<DioFactory>((ref) => const DioFactory());
+
+final dioProvider = Provider<Dio>((ref) {
+  final envConfig = ref.watch(envConfigProvider);
+  final authSession = ref.watch(authSessionProvider);
+  return ref.watch(dioFactoryProvider).create(
+    baseUrl: envConfig.apiBaseUrl,
+    authSession: authSession,
+  );
+});
+
+final apiClientProvider = Provider<ApiClient>((ref) {
+  return ApiClient(ref.watch(dioProvider));
 });
 
 final authApiProvider = Provider<AuthApi>((ref) => AuthApi(ref.watch(apiClientProvider)));
