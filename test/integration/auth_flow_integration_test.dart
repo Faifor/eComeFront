@@ -16,7 +16,7 @@ void main() {
     final go = router.config as GoRouter;
     go.go(RoutePaths.orders);
     await tester.pumpAndSettle();
-    expect(find.text('Login screen'), findsOneWidget);
+    expect(find.byKey(const Key('login_submit')), findsOneWidget);
 
     authState.signIn({AuthRole.user});
     go.go(RoutePaths.orders);
@@ -26,6 +26,6 @@ void main() {
     authState.signOut();
     go.go(RoutePaths.orders);
     await tester.pumpAndSettle();
-    expect(find.text('Login screen'), findsOneWidget);
+    expect(find.byKey(const Key('login_submit')), findsOneWidget);
   });
 }
