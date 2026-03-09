@@ -12,8 +12,8 @@ class _FakeAuthRepository implements AuthRepository {
     lastRefreshToken = refreshToken;
     return const Success(
       AuthSessionEntity(
-        accessToken: 'newA',
-        refreshToken: 'newR',
+        accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6ImFjY2VzcyIsImp0aSI6ImEyODgxMmZjLTc3MzktNDE4Mi05YjYxLTI4M2QxNjRiNDJhMyIsImlhdCI6MTc3MzA3MjY1MiwiZXhwIjoxNzczMDczNTUyLCJyb2xlIjoiYWRtaW4ifQ.gbdN7c8Hw7zMQlLnQiZ0XN0TXOs-rLACYekKzoyH4bw',
+        refreshToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiIyMzgzOWFjMC1iMDE2LTRlZmUtYjE5MS02YWU3NjgyZTBlMjgiLCJpYXQiOjE3NzMwNzI2NTIsImV4cCI6MTc3NTY2NDY1Miwic2lkIjo2fQ.mvgr_Z2JZHEfezvYDuvxXEKhw7PBxK8rqoYQZTXP14I',
         user: AuthUser(id: '1', email: 'user@example.com', name: 'User'),
       ),
     );

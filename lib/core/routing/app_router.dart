@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ecom_front/features/auth/presentation/auth_screen.dart';
 
 import '../auth/auth_state.dart';
 import 'app_shell.dart';
@@ -20,7 +21,7 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.login,
         name: RouteNames.login,
-        builder: (context, state) => const _RouteScreen(title: 'Login'),
+        builder: (context, state) => const AuthScreen(),
       ),
       GoRoute(
         path: RoutePaths.register,
