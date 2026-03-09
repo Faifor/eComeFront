@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ecom_front/features/admin/presentation/admin_screen.dart';
 import 'package:ecom_front/features/auth/presentation/auth_screen.dart';
+import 'package:ecom_front/features/cart/presentation/cart_screen.dart';
+import 'package:ecom_front/features/catalog/presentation/catalog_screen.dart';
+import 'package:ecom_front/features/orders/presentation/orders_screen.dart';
+import 'package:ecom_front/features/pricing/presentation/pricing_screen.dart';
+import 'package:ecom_front/features/reports/presentation/reports_screen.dart';
 
 import '../auth/auth_state.dart';
 import 'app_shell.dart';
@@ -26,11 +32,13 @@ class AppRouter {
       GoRoute(
         path: RoutePaths.register,
         name: RouteNames.register,
+        // TODO: Replace placeholder when RegisterScreen is implemented.
         builder: (context, state) => const _RouteScreen(title: 'Register'),
       ),
       GoRoute(
         path: RoutePaths.forbidden,
         name: RouteNames.forbidden,
+        // TODO: Replace placeholder when ForbiddenScreen is implemented.
         builder: (context, state) => const _RouteScreen(title: '403 Forbidden'),
       ),
       ShellRoute(
@@ -39,31 +47,51 @@ class AppRouter {
           child: child,
         ),
         routes: [
-          _buildRoute(RoutePaths.profile, RouteNames.profile, 'Profile'),
-          _buildRoute(RoutePaths.catalog, RouteNames.catalog, 'Catalog'),
-          _buildRoute(RoutePaths.product, RouteNames.product, 'Product'),
-          _buildRoute(RoutePaths.cart, RouteNames.cart, 'Cart'),
-          _buildRoute(RoutePaths.checkout, RouteNames.checkout, 'Checkout'),
-          _buildRoute(RoutePaths.orders, RouteNames.orders, 'Orders'),
-          _buildRoute(
+          _todoRoute(RoutePaths.profile, RouteNames.profile, 'Profile'),
+          GoRoute(
+            path: RoutePaths.catalog,
+            name: RouteNames.catalog,
+            builder: (context, state) => const CatalogScreen(),
+          ),
+          _todoRoute(RoutePaths.product, RouteNames.product, 'Product'),
+          GoRoute(
+            path: RoutePaths.cart,
+            name: RouteNames.cart,
+            builder: (context, state) => const CartScreen(),
+          ),
+          _todoRoute(RoutePaths.checkout, RouteNames.checkout, 'Checkout'),
+          GoRoute(
+            path: RoutePaths.orders,
+            name: RouteNames.orders,
+            builder: (context, state) => const OrdersScreen(),
+          ),
+          _todoRoute(
             RoutePaths.orderDetails,
             RouteNames.orderDetails,
             'Order Details',
           ),
-          _buildRoute(RoutePaths.dashboard, RouteNames.dashboard, 'Dashboard'),
-          _buildRoute(RoutePaths.categories, RouteNames.categories, 'Categories'),
-          _buildRoute(RoutePaths.products, RouteNames.products, 'Products'),
-          _buildRoute(RoutePaths.skus, RouteNames.skus, 'SKUs'),
-          _buildRoute(RoutePaths.inventory, RouteNames.inventory, 'Inventory'),
-          _buildRoute(
-            RoutePaths.pricingRules,
-            RouteNames.pricingRules,
-            'Pricing Rules',
+          GoRoute(
+            path: RoutePaths.dashboard,
+            name: RouteNames.dashboard,
+            builder: (context, state) => const AdminScreen(),
           ),
-          _buildRoute(RoutePaths.bulk, RouteNames.bulk, 'Bulk'),
-          _buildRoute(RoutePaths.import, RouteNames.import, 'Import'),
-          _buildRoute(RoutePaths.reports, RouteNames.reports, 'Reports'),
-          _buildRoute(
+          _todoRoute(RoutePaths.categories, RouteNames.categories, 'Categories'),
+          _todoRoute(RoutePaths.products, RouteNames.products, 'Products'),
+          _todoRoute(RoutePaths.skus, RouteNames.skus, 'SKUs'),
+          _todoRoute(RoutePaths.inventory, RouteNames.inventory, 'Inventory'),
+          GoRoute(
+            path: RoutePaths.pricingRules,
+            name: RouteNames.pricingRules,
+            builder: (context, state) => const PricingScreen(),
+          ),
+          _todoRoute(RoutePaths.bulk, RouteNames.bulk, 'Bulk'),
+          _todoRoute(RoutePaths.import, RouteNames.import, 'Import'),
+          GoRoute(
+            path: RoutePaths.reports,
+            name: RouteNames.reports,
+            builder: (context, state) => const ReportsScreen(),
+          ),
+          _todoRoute(
             RoutePaths.apiDiagnostics,
             RouteNames.apiDiagnostics,
             'API Diagnostics',
@@ -78,10 +106,11 @@ class AppRouter {
   }
 }
 
-GoRoute _buildRoute(String path, String name, String title) {
+GoRoute _todoRoute(String path, String name, String title) {
   return GoRoute(
     path: path,
     name: name,
+    // TODO: Replace placeholder when dedicated feature screen is implemented.
     builder: (context, state) => _RouteScreen(title: title),
   );
 }
